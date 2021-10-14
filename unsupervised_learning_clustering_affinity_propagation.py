@@ -3,13 +3,13 @@ import numpy as np
 class AffinityPropagation:
     def __init__(self, org_matrix) -> None:
         self.org_matrix = org_matrix
+        self.org_matrix_len = len(org_matrix)
 
     def find_clusters(self):
         return self.__find_similarity_matrix()
 
-    def __find_similarity_matrix(self):
-        org_matrix_len = len(self.org_matrix)
-        sim_matrix = np.zeros((org_matrix_len, org_matrix_len), dtype=int)
+    def __find_similarity_matrix(self): 
+        sim_matrix = np.zeros((self.org_matrix_len, self.org_matrix_len), dtype=int)
         
         for i in range(len(self.org_matrix)):
             for j in range(len(self.org_matrix)):
@@ -23,11 +23,10 @@ class AffinityPropagation:
         return self.__find_responsibility_matrix(sim_matrix)
 
     def __find_responsibility_matrix(self, sim_matrix):
-        org_matrix_len = len(self.org_matrix)
-        responsibility_matrix = np.zeros((org_matrix_len, org_matrix_len), dtype=int)    
+        responsibility_matrix = np.zeros((self.org_matrix_len, self.org_matrix_len), dtype=int)    
 
-        for i in range(org_matrix_len):
-            for j in range(org_matrix_len):
+        for i in range(self.org_matrix_len):
+            for j in range(self.org_matrix_len):
                 row_excludng = (sim_matrix[i, :j], sim_matrix[i, j+1:])
                 row_excludng_max = max(np.concatenate(row_excludng))
                 responsibility_matrix[i, j] = sim_matrix[i, j] - row_excludng_max
@@ -35,11 +34,10 @@ class AffinityPropagation:
         return self.__find_availibilty_matrix(responsibility_matrix)
 
     def __find_availibilty_matrix(self, responsibility_matrix):
-        org_matrix_len = len(self.org_matrix)
-        avail_matrix = np.zeros((org_matrix_len, org_matrix_len), dtype=int)   
+        avail_matrix = np.zeros((self.org_matrix_len, self.org_matrix_len), dtype=int)   
 
-        for i in range(org_matrix_len):
-            for j in range(org_matrix_len):
+        for i in range(self.org_matrix_len):
+            for j in range(self.org_matrix_len):
                 if i == j: 
                     col_exclud = (responsibility_matrix[:i, j], responsibility_matrix[i:, j])
                     col_exclud = np.concatenate(col_exclud)

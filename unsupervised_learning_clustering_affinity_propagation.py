@@ -56,3 +56,13 @@ class AffinityPropagation:
 
     def __find_criterion_matrix(rself, responsibility_matrix, avail_matrix):
         return responsibility_matrix + avail_matrix
+    
+if __name__ == "__main__":
+    org_matrix = np.array([
+        [3, 4, 3, 2, 1],
+        [4, 3, 5, 1, 1],
+        [3, 5, 3, 3, 3],
+        [2, 1, 3, 3, 2],
+        [1, 1, 3, 2, 3]
+    ])
+    print(AffinityPropagation(org_matrix).find_clusters())

@@ -16,10 +16,8 @@ class AffinityPropagation:
             jth_row = self.org_matrix[idx[1]]
             power_of_diff = (ith_row - jth_row) ** 2
             sim_matrix[idx[0], idx[1]] = - sum(power_of_diff)
-
-        for idx, _ in np.ndenumerate(sim_matrix):
-            if idx[0] == idx[1]: sim_matrix[idx[0], idx[1]] = sim_matrix.min() 
-
+        
+        sim_matrix = np.fill_diagonal(sim_matrix, sim_matrix.min())      
         return self.__find_responsibility_matrix(sim_matrix)
 
     def __find_responsibility_matrix(self, sim_matrix):

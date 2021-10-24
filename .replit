@@ -1,0 +1,2 @@
+language = "bash"
+run = "python unsupervised_learning_clustering_affinity_propagation.py"
